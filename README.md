@@ -21,19 +21,23 @@ Simple:
 
 Detailed:
 
-    % json-diff --help
-    Usage: json-diff [-vjC] first.json second.json
+      % json-diff --help
+      Usage: json-diff [options] old.json new.json
 
-    Arguments:
-      first.json            Old file
-      second.json           New file
+      Arguments:
+        old.json              Old file
+        new.json              New file
 
-    General options:
-      -v, --verbose         Output progress info
-      -C, --[no-]color      Colored output
-      -j, --raw-json        Display raw JSON encoding of the diff
-      -h, --help            Display this usage information
+      Normalization options:
+        -s, --path-sep SEP    Separation char/string in key paths used in -K and -V (default '/')
+        -K, --ignore-keys KEYS  Ignore KEYS (comma separated), e.g., 'json-diff -K meta,log/last-log ...'
+        -V, --ignore-vals KEYS  Ignore values of KEYS, e.g, 'json-diff -V uuid,log/time-stamp ...'
 
+      General options:
+        -v, --verbose         Output progress info
+        -C, --[no-]color      Colored output
+        -j, --raw-json        Display raw JSON encoding of the diff
+        -h, --help            Display this usage information
 
 Features
 --------
@@ -41,7 +45,7 @@ Features
 * colorized, diff-like output
 * fuzzy matching of modified array elements (when array elements are object hierarchies)
 * reasonable test coverage (far from 100%, though)
-
+* can drop (values of) some fields
 
 Tests
 -----

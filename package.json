@@ -2,10 +2,9 @@
   "author": "Andrey Tarantsov <andreyvit@me.com>",
   "name": "json-diff",
   "description": "JSON diff",
-  "version": "0.3.1",
-  "homepage": "https://github.com/andreyvit/json-diff",
+  "version": "1.0.0",
   "repository": {
-    "url": "git@github.com:andreyvit/json-diff.git"
+    "url": "git@github.com:fraczak/json-diff.git"
   },
   "main": "lib/index.js",
   "bin": "bin/json-diff.js",

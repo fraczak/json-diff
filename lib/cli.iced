@@ -4,27 +4,29 @@ dreamopt = require 'dreamopt'
 
 { diff } = require './index'
 { colorize } = require './colorize'
-{ remove_key, set_key } = require "./helpers"
+{ removeKey, setKey } = require "./util"
 
 module.exports = (argv) ->
   options = dreamopt [
     "Usage: json-diff [options] old.json new.json"
 
     "Arguments:"
-    "  old.json              Old file #var(old) #required"
-    "  new.json              New file #var(new) #required"
+    "  old.json                Old file #var(old) #required"
+    "  new.json                New file #var(new) #required"
+
+    "Normalization options:"
+    "  -s, --path-sep SEP      Separation char/string in key paths used in -K and -V (default '/')"
+    "  -K, --ignore-keys KEYS  Ignore KEYS (comma separated), e.g., 'json-diff -K meta,log/last-log ...'"
+    "  -V, --ignore-vals KEYS  Ignore values of KEYS, e.g, 'json-diff -V uuid,log/time-stamp ...'"
 
     "General options:"
-    "  -v, --verbose                    Output progress info"
-    "  -C, --[no-]color                 Colored output"
-    "  -j, --raw-json                   Display raw JSON encoding of the diff #var(raw)"
-    "  -K, --ignore-keys KEYS           Ignore keys (comma separated)"
-    "  -V, --ignore-val-for-keys KEYS   Ignore value of keys (comma separated)"
-    "  -s, --path-sep SEP               In path to key description (default '/')"
+    "  -v, --verbose           Output progress info"
+    "  -C, --[no-]color        Colored output"
+    "  -j, --raw-json          Display raw JSON encoding of the diff #var(raw)"
   ], argv
 
   options["path-sep"] ?= "/"
-  for x in ["ignore-keys", "ignore-val-for-keys"]
+  for x in ["ignore-keys", "ignore-vals"]
     if options[x]
       options[x] = options[x].split(",").map (x) ->
         x.split options["path-sep"]
@@ -47,9 +49,9 @@ module.exports = (argv) ->
     process.stderr.write "Parsing #{k} file...\n"  if options.verbose
     json = JSON.parse(v)
     for x in options["ignore-keys"]
-      remove_key json, x
-    for x in options["ignore-val-for-keys"]
-      set_key json, x, "IGNORED"
+      removeKey json, x
+    for x in options["ignore-vals"]
+      setKey json, x, "..."
     data[k] = json
 
   process.stderr.write "Running diff...\n"  if options.verbose
